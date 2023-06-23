@@ -16,6 +16,10 @@ axios.get('/vehicles')
                 options[i].innerHTML = currentOptions[i];
             }
             correctAnswer = questions[currentQuestion].correctAnswer;
+            const nextButton = document.getElementById("next-btn");
+            nextButton.style.display = 'none';
+
+
 
         }
 
@@ -38,21 +42,25 @@ axios.get('/vehicles')
         function nextQuestion() {
             if (selectedOption === correctAnswer) {
                 score = score + 1;
-                console.log(score);
-                console.log("Correct answer");
 
-            } else {
-                console.log("Wrong answer");
+
             }
-            console.log("Current score: " + score);
 
             selectedOption = null;
             currentQuestion++;
+
+            options.forEach(function (option) {
+                option.classList.remove("selected");
+            });
 
             if (currentQuestion === questions.length) {
                 const nextButton = document.getElementById("next-btn");
                 nextButton.style.display = "none";
                 let complete = document.createElement('h1');
+                complete.style.backgroundColor = '#b1b1f7';
+                complete.style.padding = '1rem';
+                complete.style.width = 'max-content';
+                complete.style.alignSelf = 'center';
                 complete.innerText = 'Quiz Complete';
                 let parent = nextButton.parentNode;
                 let div = document.createElement("div");
@@ -61,23 +69,47 @@ axios.get('/vehicles')
                 parent.appendChild(div);
                 div.appendChild(complete);
                 let result = document.createElement('h1');
-                result.innerHTML = `${(score / 10) * 100}%`
+                let precentage = (score / 10) * 100
+                result.innerHTML = `You scored &nbsp; ${precentage}%`
                 div.appendChild(result);
-                console.log("Final score: " + score);
 
                 let suggestion = document.createElement("h1");
 
-                if (result.innerHTML > `${90}%` && result.innerHTML <= `${100}%`) {
+                if (precentage > 90 && precentage <= 100) {
+                    suggestion.style.backgroundColor = '#b1b1f7';
+                    suggestion.style.padding = '1rem';
+                    suggestion.style.width = 'max-content';
+                    suggestion.style.alignSelf = 'center';
                     suggestion.innerHTML = 'Your Knowledge is <br /> Amazing';
-                } else if (result.innerHTML > `${80}%` && result.innerHTML <= `${90}%`) {
+                } else if (precentage > 80 && precentage <= 90) {
+                    suggestion.style.backgroundColor = 'rgb(151 241 198)';
+                    suggestion.style.padding = '1rem';
+                    suggestion.style.width = 'max-content';
+                    suggestion.style.alignSelf = 'center';
                     suggestion.innerHTML = 'Excelent';
-                } else if (result.innerHTML > `${70}%` && result.innerHTML <= `${80}%`) {
+                } else if (precentage > 70 && precentage <= 80) {
+                    suggestion.style.backgroundColor = 'rgb(223 243 136)';
+                    suggestion.style.padding = '1rem';
+                    suggestion.style.width = 'max-content';
+                    suggestion.style.alignSelf = 'center';
                     suggestion.innerHTML = 'Good <br /> Keep it up';
-                } else if (result.innerHTML > `${60}%` && result.innerHTML <= `${70}%`) {
+                } else if (precentage > 60 && precentage <= 70) {
+                    suggestion.style.backgroundColor = 'rgb(237 193 76)';
+                    suggestion.style.padding = '1rem';
+                    suggestion.style.width = 'max-content';
+                    suggestion.style.alignSelf = 'center';
                     suggestion.innerHTML = 'It can be <br /> Better';
-                } else if (result.innerHTML > `${50}%` && result.innerHTML <= `${60}%`) {
+                } else if (precentage > 50 && precentage <= 60) {
+                    suggestion.style.backgroundColor = 'rgb(237 126 76)';
+                    suggestion.style.padding = '1rem';
+                    suggestion.style.width = 'max-content';
+                    suggestion.style.alignSelf = 'center';
                     suggestion.innerHTML = 'Need Improvemrnt';
-                } else if (result.innerHTML < `${50}%`) {
+                } else if (precentage < 50) {
+                    suggestion.style.backgroundColor = 'rgb(239 45 45)';
+                    suggestion.style.padding = '1rem';
+                    suggestion.style.width = 'max-content';
+                    suggestion.style.alignSelf = 'center';
                     suggestion.innerHTML = 'Need Hard Work';
                 }
                 let backToHome = document.createElement('button');
@@ -92,6 +124,8 @@ axios.get('/vehicles')
 
             } else {
                 loadQuestion();
+
+
             }
 
 
